@@ -1,272 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Beck Anxiety Inventory (BAI)</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        /* From beck-anxiety-inventory-ii-app/src/index.css */
+        :root {
+            font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            font-weight: 400;
+            color-scheme: light dark;
+            color: rgba(255, 255, 255, 0.87);
+            background-color: #242424;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            font-weight: 500;
+            color: #646cff;
+            text-decoration: inherit;
+        }
+        a:hover {
+            color: #535bf2;
+        }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #e0f2f7; /* Light blue background */
-            color: #333;
             margin: 0;
-            padding: 20px;
             display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align to the top */
+            place-items: center;
+            min-width: 320px;
             min-height: 100vh;
         }
-        .container {
-            width: 100%;
-            max-width: 900px; /* Slightly wider container */
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* More pronounced shadow */
-            padding: 30px;
-            box-sizing: border-box; /* Include padding in width */
-        }
-        .header {
-            text-align: center;
-            border-bottom: 2px solid #b3e0ff; /* Light blue border */
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
+
         h1 {
-            color: #2196f3; /* Stronger blue */
-            font-size: 32px;
-            font-weight: 700;
-            margin: 0;
-        }
-        h2 {
-            font-size: 24px;
-            color: #424242;
-            margin-top: 20px;
-            margin-bottom: 15px;
-        }
-        h3 {
-            font-size: 18px;
-            color: #616161;
-            margin-top: 15px;
-            margin-bottom: 10px;
-        }
-        p {
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-        .instructions {
-            background-color: #f7fcfc; /* Very light blue for instructions */
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border: 1px solid #c8e6c9; /* Subtle green border */
-        }
-        .instructions ul {
-            list-style-type: disc;
-            padding-left: 25px;
-            margin-top: 15px;
-        }
-        .instructions li {
-            margin-bottom: 8px;
-        }
-        .question-list {
-            margin-top: 20px;
-        }
-        .question {
-            display: flex;
-            flex-direction: column; /* Stack question text and options */
-            padding: 20px;
-            border-bottom: 1px solid #eceff1; /* Lighter separator */
-            margin-bottom: 15px;
-            background-color: #fcfdff; /* Off-white for each question block */
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .question:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        .question p {
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 15px;
-            color: #333;
-        }
-        .options {
-            display: flex;
-            flex-wrap: wrap; /* Allow options to wrap */
-            gap: 20px; /* Space between options */
-            justify-content: center; /* Center options */
-        }
-        .options label {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            border: 1px solid #bbdefb; /* Light blue border for labels */
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            background-color: #e3f2fd; /* Lighter blue for unselected options */
-            color: #424242;
-        }
-        .options label:hover {
-            background-color: #c5e1a5; /* Light green on hover */
-            border-color: #8bc34a; /* Green border on hover */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .options input[type="radio"] {
-            margin-right: 8px;
-            accent-color: #4caf50; /* Green radio button */
-        }
-        .options input[type="radio"]:checked + span {
-            font-weight: 700;
-            color: #1b5e20; /* Darker green for checked text */
-        }
-        .options input[type="radio"]:checked {
-            /* Styles for the checked label */
-            background-color: #a5d6a7; /* Light green for selected */
-            border-color: #4caf50; /* Green border for selected */
+            font-size: 3.2em;
+            line-height: 1.1;
         }
 
-        .total-score {
-            text-align: center;
-            padding-top: 30px;
-            margin-top: 30px;
-            border-top: 2px solid #b3e0ff;
-            background-color: #f7fcfc;
-            border-radius: 8px;
-            padding-bottom: 20px;
-        }
-        .total-score h2 {
-            font-size: 28px;
-            color: #2196f3;
-            margin-bottom: 20px;
-        }
         button {
-            background-color: #4caf50; /* Green button */
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 18px;
             border-radius: 8px;
+            border: 1px solid transparent;
+            padding: 0.6em 1.2em;
+            font-size: 1em;
+            font-weight: 500;
+            font-family: inherit;
+            background-color: #1a1a1a;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: border-color 0.25s;
         }
         button:hover {
-            background-color: #388e3c; /* Darker green on hover */
-            transform: translateY(-2px);
+            border-color: #646cff;
         }
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        button:focus,
+        button:focus-visible {
+            outline: 4px auto -webkit-focus-ring-color;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                color: #213547;
+                background-color: #ffffff;
+            }
+            a:hover {
+                color: #747bff;
+            }
+            button {
+                background-color: #f9f9f9;
+            }
+        }
+
+        /* From beck-anxiety-inventory-ii-app/src/App.css */
+        /* General Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+            Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .app {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress {
+            height: 10px;
+            background: linear-gradient(90deg, #4caf50, #81c784);
+            transition: width 0.3s ease-in-out;
+        }
+
+        /* Question Section */
+        .question-section h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .question-section p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .options label {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 5px 0;
+            width: 100%;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .options label:hover {
+            background: #e9ecef;
+        }
+
+        .options input[type='radio'] {
+            margin-right: 15px;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Results Section */
+        .results-section {
+            text-align: center;
+        }
+
+        .results-section h2 {
+            color: #007bff;
+        }
+
+        .results-section p {
+            font-size: 1.1rem;
+        }
+
+        .results-section strong {
+            color: #4caf50;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Beck Anxiety Inventory (BAI)</h1>
-        </div>
-        <div class="instructions">
-            <h2>INSTRUCTIONS TO RESPONDENT:</h2>
-            <p>Below is a list of common symptoms of anxiety.</p>
-            <p>
-              Please carefully read each item in the list. Indicate how much you
-              have been bothered by that symptom during the past month, including
-              today, by selecting the appropriate option.
-            </p>
-            <h3>RESPONSE OPTIONS (SCORING):</h3>
-            <ul>
-              <li>0 = Not at all</li>
-              <li>1 = Mildly, but it didn’t bother me much</li>
-              <li>2 = Moderately – it wasn’t pleasant at times</li>
-              <li>3 = Severely – it bothered me a lot</li>
-            </ul>
-        </div>
-        <div id="questions" class="question-list"></div>
-        <div class="total-score">
-            <h2 id="total-score">GRAND TOTAL SCORE: 0</h2>
-            <button id="reset-button">Reset</button>
-        </div>
-    </div>
+    <div id="app-root" class="app-container"></div>
 
     <script>
         const questions = [
-          { text: "Numbness or tingling" },
-          { text: "Feeling hot" },
-          { text: "Wobbliness in legs" },
-          { text: "Unable to relax" },
-          { text: "Fear of worst happening" },
-          { text: "Dizzy or lightheaded" },
-          { text: "Heart pounding / racing" },
-          { text: "Unsteady" },
-          { text: "Terrified or afraid" },
-          { text: "Nervous" },
-          { text: "Feeling of choking" },
-          { text: "Hands trembling" },
-          { text: "Shaky / unsteady" },
-          { text: "Fear of losing control" },
-          { text: "Difficulty in breathing" },
-          { text: "Fear of dying" },
-          { text: "Scared" },
-          { text: "Indigestion" },
-          { text: "Faint / lightheaded" },
-          { text: "Face flushed" },
-          { text: "Hot / cold sweats" },
+            { text: "Numbness or tingling" },
+            { text: "Feeling hot" },
+            { text: "Wobbliness in legs" },
+            { text: "Unable to relax" },
+            { text: "Fear of worst happening" },
+            { text: "Dizzy or lightheaded" },
+            { text: "Heart pounding / racing" },
+            { text: "Unsteady" },
+            { text: "Terrified or afraid" },
+            { text: "Nervous" },
+            { text: "Feeling of choking" },
+            { text: "Hands trembling" },
+            { text: "Shaky / unsteady" },
+            { text: "Fear of losing control" },
+            { text: "Difficulty in breathing" },
+            { text: "Fear of dying" },
+            { text: "Scared" },
+            { text: "Indigestion" },
+            { text: "Faint / lightheaded" },
+            { text: "Face flushed" },
+            { text: "Hot / cold sweats" },
         ];
 
+        let currentQuestion = 0;
         let scores = Array(questions.length).fill(0);
+        let showScore = false;
 
-        const questionsContainer = document.getElementById('questions');
-        const totalScoreElement = document.getElementById('total-score');
-        const resetButton = document.getElementById('reset-button');
-
-        function renderQuestions() {
-            questionsContainer.innerHTML = '';
-            questions.forEach((question, index) => {
-                const questionElement = document.createElement('div');
-                questionElement.className = 'question';
-                questionElement.innerHTML = `<p>${index + 1}. ${question.text}</p>`;
-
-                const optionsElement = document.createElement('div');
-                optionsElement.className = 'options';
-
-                for (let i = 0; i <= 3; i++) {
-                    const label = document.createElement('label');
-                    const radio = document.createElement('input');
-                    radio.type = 'radio';
-                    radio.name = `question-${index}`;
-                    radio.value = i;
-                    radio.checked = scores[index] === i;
-                    radio.addEventListener('change', () => {
-                        scores[index] = parseInt(radio.value); // Ensure score is a number
-                        updateTotalScore();
-                    });
-                    label.appendChild(radio);
-                    label.appendChild(document.createElement('span')).textContent = i;
-                    optionsElement.appendChild(label);
-                }
-                questionElement.appendChild(optionsElement);
-                questionsContainer.appendChild(questionElement);
-            });
+        function getInterpretation(score) {
+            if (score >= 0 && score <= 21) {
+                return "Low anxiety. These ups and downs are considered normal.";
+            } else if (score >= 22 && score <= 35) {
+                return "Moderate anxiety. Your physical symptoms may be causing you some distress. Consider seeking a professional opinion.";
+            } else {
+                return "High anxiety. Your physical symptoms are likely causing you significant distress. It is important to seek a professional opinion.";
+            }
         }
 
-        function updateTotalScore() {
-            const total = scores.reduce((acc, score) => acc + score, 0);
-            totalScoreElement.textContent = `GRAND TOTAL SCORE: ${total}`;
+        function renderApp() {
+            const appRoot = document.getElementById('app-root');
+            appRoot.innerHTML = ''; // Clear previous content
+
+            if (showScore) {
+                const totalScore = scores.reduce((acc, curr) => acc + curr, 0);
+                appRoot.innerHTML = `
+                    <div class="app results-section">
+                        <h2>Your Results</h2>
+                        <p>Your total score is: <strong>${totalScore}</strong></p>
+                        <p>Interpretation: ${getInterpretation(totalScore)}</p>
+                        <button onclick="resetTest()">Take Again</button>
+                    </div>
+                `;
+            } else {
+                const currentQ = questions[currentQuestion];
+                appRoot.innerHTML = `
+                    <div class="app question-section">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: ${((currentQuestion + 1) / questions.length) * 100}%;"></div>
+                        </div>
+                        <h2>Question ${currentQuestion + 1}/${questions.length}</h2>
+                        <p>${currentQ.text}</p>
+                        <div class="options">
+                            ${[
+                                { score: 0, label: "Not at all" },
+                                { score: 1, label: "Mildly, but it didn’t bother me much" },
+                                { score: 2, label: "Moderately – it wasn’t pleasant at times" },
+                                { score: 3, label: "Severely – it bothered me a lot" },
+                            ].map(({ score, label }) => `
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="question-${currentQuestion}"
+                                        value="${score}"
+                                        ${scores[currentQuestion] === score ? 'checked' : ''}
+                                        onchange="handleScoreChange(${score})"
+                                    />
+                                    ${label}
+                                </label>
+                            `).join('')}
+                        </div>
+                        <div class="navigation">
+                            <button onclick="prevQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>
+                                Previous
+                            </button>
+                            <button onclick="nextQuestion()">
+                                ${currentQuestion === questions.length - 1 ? "Finish" : "Next"}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
-        function resetScores() {
-            scores.fill(0);
-            renderQuestions();
-            updateTotalScore();
+        function handleScoreChange(score) {
+            scores[currentQuestion] = score;
+            renderApp();
         }
 
-        resetButton.addEventListener('click', resetScores);
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderApp();
+            } else {
+                showScore = true;
+                renderApp();
+            }
+        }
 
-        renderQuestions();
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderApp();
+            }
+        }
+
+        function resetTest() {
+            currentQuestion = 0;
+            scores = Array(questions.length).fill(0);
+            showScore = false;
+            renderApp();
+        }
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', renderApp);
     </script>
 </body>
 </html>
