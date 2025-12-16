@@ -159,6 +159,15 @@
             text-align: center;
         }
 
+        .results-section .interpretation-text {
+            font-size: 1.5rem; /* Make it a bit bigger */
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
         .results-section p {
             font-size: 1.1rem;
         }
@@ -271,7 +280,7 @@
                     <div class="results-section">
                         <h2>Your Results</h2>
                         <p>Your total score is: <strong>${totalScore}</strong></p>
-                        <p>Interpretation: ${getInterpretation(totalScore)}</p>
+                        <p class="interpretation-text">${getInterpretation(totalScore)}</p>
                         <p class="disclaimer">
                             <strong>Disclaimer:</strong> This is a self-report inventory. The results are for informational purposes only and should not be considered a substitute for a professional psychological evaluation. For a proper diagnosis and treatment, please consult a qualified mental health professional.
                         </p>
