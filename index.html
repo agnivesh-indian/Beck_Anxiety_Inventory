@@ -5,102 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Beck Anxiety Inventory (BAI)</title>
     <style>
-        /* From beck-anxiety-inventory-ii-app/src/index.css */
         :root {
-            font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-            line-height: 1.5;
-            font-weight: 400;
-            color-scheme: light dark;
-            color: rgba(255, 255, 255, 0.87);
-            background-color: #242424;
-            font-synthesis: none;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --background-color: #f0f4f8;
+            --text-color: #333;
+            --container-bg: #ffffff;
+            --success-color: #28a745;
         }
 
-        a {
-            font-weight: 500;
-            color: #646cff;
-            text-decoration: inherit;
-        }
-        a:hover {
-            color: #535bf2;
-        }
-
-        body {
-            margin: 0;
-            display: flex;
-            place-items: center;
-            min-width: 320px;
-            min-height: 100vh;
-        }
-
-        h1 {
-            font-size: 3.2em;
-            line-height: 1.1;
-        }
-
-        button {
-            border-radius: 8px;
-            border: 1px solid transparent;
-            padding: 0.6em 1.2em;
-            font-size: 1em;
-            font-weight: 500;
-            font-family: inherit;
-            background-color: #1a1a1a;
-            cursor: pointer;
-            transition: border-color 0.25s;
-        }
-        button:hover {
-            border-color: #646cff;
-        }
-        button:focus,
-        button:focus-visible {
-            outline: 4px auto -webkit-focus-ring-color;
-        }
-
-        @media (prefers-color-scheme: light) {
-            :root {
-                color: #213547;
-                background-color: #ffffff;
-            }
-            a:hover {
-                color: #747bff;
-            }
-            button {
-                background-color: #f9f9f9;
-            }
-        }
-
-        /* From beck-anxiety-inventory-ii-app/src/App.css */
-        /* General Styles */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-            Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background: #f0f4f8;
+                Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: var(--background-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
         }
 
         .app-container {
             width: 100%;
             max-width: 600px;
-            padding: 20px;
         }
 
         .app {
-            background: #ffffff;
+            background: var(--container-bg);
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: opacity 0.5s ease-in-out;
         }
 
-        /* Progress Bar */
+        .app.fade-out {
+            opacity: 0;
+        }
+
+        .start-page h1 {
+            color: var(--primary-color);
+        }
+
+        .start-page p {
+            color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+
         .progress-bar {
             width: 100%;
             background: #e0e0e0;
@@ -111,26 +64,26 @@
 
         .progress {
             height: 10px;
-            background: linear-gradient(90deg, #4caf50, #81c784);
+            background: linear-gradient(90deg, #007bff, #82baff);
             transition: width 0.3s ease-in-out;
         }
 
-        /* Question Section */
         .question-section h2 {
-            color: #333;
+            color: var(--text-color);
             margin-bottom: 10px;
         }
 
         .question-section p {
             font-size: 1.2rem;
-            color: #555;
+            color: var(--text-color);
             margin-bottom: 20px;
+            min-height: 50px;
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 20px;
         }
 
@@ -142,40 +95,43 @@
             margin: 5px 0;
             width: 100%;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
+            display: block;
         }
 
         .options label:hover {
             background: #e9ecef;
+            transform: scale(1.02);
         }
-
+        
         .options input[type='radio'] {
-            margin-right: 15px;
+            display: none;
         }
 
-        /* Navigation */
-        .navigation {
-            display: flex;
-            justify-content: space-between;
+        .options input[type='radio']:checked + label {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
 
         button {
-            background-color: #007bff;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 15px 30px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
+            font-size: 1rem;
             margin: 4px 2px;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.1s;
         }
 
         button:hover:not(:disabled) {
             background-color: #0056b3;
+            transform: scale(1.05);
         }
 
         button:disabled {
@@ -183,13 +139,12 @@
             cursor: not-allowed;
         }
 
-        /* Results Section */
         .results-section {
             text-align: center;
         }
 
         .results-section h2 {
-            color: #007bff;
+            color: var(--primary-color);
         }
 
         .results-section p {
@@ -197,7 +152,15 @@
         }
 
         .results-section strong {
-            color: #4caf50;
+            color: var(--success-color);
+            font-size: 1.3rem;
+        }
+        
+        .disclaimer {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            margin-top: 2rem;
+            text-align: justify;
         }
     </style>
 </head>
@@ -230,8 +193,8 @@
         ];
 
         let currentQuestion = 0;
-        let scores = Array(questions.length).fill(0);
-        let showScore = false;
+        let scores = Array(questions.length).fill(null);
+        let appState = 'start'; // 'start', 'test', 'results'
 
         function getInterpretation(score) {
             if (score >= 0 && score <= 21) {
@@ -242,29 +205,29 @@
                 return "High anxiety. Your physical symptoms are likely causing you significant distress. It is important to seek a professional opinion.";
             }
         }
-
-        function renderApp() {
+        
+        function render() {
             const appRoot = document.getElementById('app-root');
-            appRoot.innerHTML = ''; // Clear previous content
+            appRoot.innerHTML = '';
+            const appDiv = document.createElement('div');
+            appDiv.className = 'app';
+            appRoot.appendChild(appDiv);
 
-            if (showScore) {
-                const totalScore = scores.reduce((acc, curr) => acc + curr, 0);
-                appRoot.innerHTML = `
-                    <div class="app results-section">
-                        <h2>Your Results</h2>
-                        <p>Your total score is: <strong>${totalScore}</strong></p>
-                        <p>Interpretation: ${getInterpretation(totalScore)}</p>
-                        <button onclick="resetTest()">Take Again</button>
+            if (appState === 'start') {
+                appDiv.innerHTML = `
+                    <div class="start-page">
+                        <h1>Beck Anxiety Inventory (BAI)</h1>
+                        <p>Below is a list of common symptoms of anxiety. Please carefully read each item in the list. Indicate how much you have been bothered by that symptom during the past month, including today, by selecting the appropriate option.</p>
+                        <button onclick="startTest()">Start Test</button>
                     </div>
                 `;
-            } else {
+            } else if (appState === 'test') {
                 const currentQ = questions[currentQuestion];
-                appRoot.innerHTML = `
-                    <div class="app question-section">
+                appDiv.innerHTML = `
+                    <div class="question-section">
                         <div class="progress-bar">
-                            <div class="progress" style="width: ${((currentQuestion + 1) / questions.length) * 100}%;"></div>
+                            <div class="progress" style="width: ${((currentQuestion) / questions.length) * 100}%;"></div>
                         </div>
-                        <h2>Question ${currentQuestion + 1}/${questions.length}</h2>
                         <p>${currentQ.text}</p>
                         <div class="options">
                             ${[
@@ -273,62 +236,69 @@
                                 { score: 2, label: "Moderately – it wasn’t pleasant at times" },
                                 { score: 3, label: "Severely – it bothered me a lot" },
                             ].map(({ score, label }) => `
-                                <label>
+                                <div>
                                     <input
                                         type="radio"
+                                        id="option-${score}"
                                         name="question-${currentQuestion}"
                                         value="${score}"
                                         ${scores[currentQuestion] === score ? 'checked' : ''}
                                         onchange="handleScoreChange(${score})"
                                     />
-                                    ${label}
-                                </label>
+                                    <label for="option-${score}">${label}</label>
+                                </div>
                             `).join('')}
                         </div>
-                        <div class="navigation">
-                            <button onclick="prevQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>
-                                Previous
-                            </button>
-                            <button onclick="nextQuestion()">
-                                ${currentQuestion === questions.length - 1 ? "Finish" : "Next"}
-                            </button>
-                        </div>
+                    </div>
+                `;
+            } else if (appState === 'results') {
+                const totalScore = scores.reduce((acc, curr) => acc + curr, 0);
+                appDiv.innerHTML = `
+                    <div class="results-section">
+                        <h2>Your Results</h2>
+                        <p>Your total score is: <strong>${totalScore}</strong></p>
+                        <p>Interpretation: ${getInterpretation(totalScore)}</p>
+                        <p class="disclaimer">
+                            <strong>Disclaimer:</strong> This is a self-report inventory and not a diagnostic tool. The results are for informational purposes only and should not be considered a substitute for a professional psychological evaluation. For a proper diagnosis and treatment, please consult a qualified mental health professional.
+                        </p>
+                        <button onclick="resetTest()">Take Again</button>
                     </div>
                 `;
             }
         }
-
+        
         function handleScoreChange(score) {
             scores[currentQuestion] = score;
-            renderApp();
+            
+            const appDiv = document.querySelector('.app');
+            appDiv.classList.add('fade-out');
+
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                } else {
+                    appState = 'results';
+                }
+                render();
+                const newAppDiv = document.querySelector('.app');
+                newAppDiv.classList.add('fade-out');
+                setTimeout(() => newAppDiv.classList.remove('fade-out'), 10);
+            }, 500);
         }
 
-        function nextQuestion() {
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                renderApp();
-            } else {
-                showScore = true;
-                renderApp();
-            }
-        }
-
-        function prevQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                renderApp();
-            }
+        function startTest() {
+            appState = 'test';
+            render();
         }
 
         function resetTest() {
             currentQuestion = 0;
-            scores = Array(questions.length).fill(0);
-            showScore = false;
-            renderApp();
+            scores = Array(questions.length).fill(null);
+            appState = 'start';
+            render();
         }
 
-        // Initial render
-        document.addEventListener('DOMContentLoaded', renderApp);
+        document.addEventListener('DOMContentLoaded', render);
     </script>
 </body>
 </html>
