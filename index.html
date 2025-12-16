@@ -292,14 +292,13 @@
                 appDiv.innerHTML = `
                     <div class="results-section">
                         <h2>Your Results</h2>
-                        <p>Your total score is: <strong>${totalScore}</strong></p>
+                        <p>Your total score is: <strong>${totalScore}/63</strong></p>
                         <h3 class="interpretation-level ${interpretation.className}">${interpretation.level}</h3>
                         <p class="interpretation-text">${interpretation.description}</p>
                         <p class="disclaimer">
                             <strong>Disclaimer:</strong> This is a self-report inventory. The results are for informational purposes only and should not be considered a substitute for a professional psychological evaluation. For a proper diagnosis and treatment, please consult a qualified mental health professional.
                         </p>
                          <div class="navigation">
-                            <button class="back-btn" onclick="goBack()">Back</button>
                             <button onclick="resetTest()">Take Again</button>
                         </div>
                     </div>
