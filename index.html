@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Beck Anxiety Inventory (BAI)</title>
+    <title>Beck Anxiety Inventory (BAI-II)</title>
     <style>
         :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
-            --background-color: #f0f4f8;
+            --primary-color: #4A148C; /* Deep Purple */
+            --secondary-color: #7E57C2; /* Lighter Purple */
+            --accent-color: #007BFF; /* Bright Blue */
+            --background-color: #f4f7f9;
             --text-color: #333;
             --container-bg: #ffffff;
             --success-color: #28a745;
@@ -36,7 +37,7 @@
             background: var(--container-bg);
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             text-align: center;
             transition: opacity 0.5s ease-in-out;
         }
@@ -45,13 +46,14 @@
             opacity: 0;
         }
 
-        .start-page h1 {
+        h1, h2 {
             color: var(--primary-color);
         }
-
+        
         .start-page p {
             color: var(--text-color);
             margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
 
         .progress-bar {
@@ -64,20 +66,15 @@
 
         .progress {
             height: 10px;
-            background: linear-gradient(90deg, #007bff, #82baff);
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
             transition: width 0.3s ease-in-out;
         }
-
-        .question-section h2 {
-            color: var(--text-color);
-            margin-bottom: 10px;
-        }
-
+        
         .question-section p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-color);
             margin-bottom: 20px;
-            min-height: 50px;
+            min-height: 60px;
         }
 
         .options {
@@ -87,16 +84,21 @@
             margin-bottom: 20px;
         }
 
+        .options div {
+            width: 100%;
+            margin: 5px 0;
+        }
+
         .options label {
             background: #f8f9fa;
-            border: 1px solid #dee2e6;
+            border: 2px solid #dee2e6;
             border-radius: 10px;
             padding: 15px;
-            margin: 5px 0;
             width: 100%;
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
             display: block;
+            box-sizing: border-box;
         }
 
         .options label:hover {
@@ -109,29 +111,43 @@
         }
 
         .options input[type='radio']:checked + label {
-            background: var(--primary-color);
+            background: var(--secondary-color);
             color: white;
             border-color: var(--primary-color);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
         }
 
         button {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 15px 0;
+            width: 120px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 1rem;
-            margin: 4px 2px;
             cursor: pointer;
             border-radius: 8px;
             transition: background-color 0.3s, transform 0.1s;
         }
+        
+        button.back-btn {
+            background-color: var(--secondary-color);
+        }
 
         button:hover:not(:disabled) {
-            background-color: #0056b3;
+            background-color: #311B92; /* Darker Purple */
             transform: scale(1.05);
+        }
+        
+        button.back-btn:hover:not(:disabled) {
+            background-color: #5E35B1; /* Darker Lighter Purple */
         }
 
         button:disabled {
@@ -141,10 +157,6 @@
 
         .results-section {
             text-align: center;
-        }
-
-        .results-section h2 {
-            color: var(--primary-color);
         }
 
         .results-section p {
@@ -216,8 +228,8 @@
             if (appState === 'start') {
                 appDiv.innerHTML = `
                     <div class="start-page">
-                        <h1>Beck Anxiety Inventory (BAI)</h1>
-                        <p>Below is a list of common symptoms of anxiety. Please carefully read each item in the list. Indicate how much you have been bothered by that symptom during the past month, including today, by selecting the appropriate option.</p>
+                        <h1>Beck Anxiety Inventory (BAI-II)</h1>
+                        <p>Indicate how much you have been bothered by each symptom during the past month, including today, by selecting the appropriate option.</p>
                         <button onclick="startTest()">Start Test</button>
                     </div>
                 `;
@@ -242,12 +254,14 @@
                                         id="option-${score}"
                                         name="question-${currentQuestion}"
                                         value="${score}"
-                                        ${scores[currentQuestion] === score ? 'checked' : ''}
                                         onchange="handleScoreChange(${score})"
                                     />
                                     <label for="option-${score}">${label}</label>
                                 </div>
                             `).join('')}
+                        </div>
+                        <div class="navigation">
+                            <button class="back-btn" onclick="goBack()">Back</button>
                         </div>
                     </div>
                 `;
@@ -259,9 +273,12 @@
                         <p>Your total score is: <strong>${totalScore}</strong></p>
                         <p>Interpretation: ${getInterpretation(totalScore)}</p>
                         <p class="disclaimer">
-                            <strong>Disclaimer:</strong> This is a self-report inventory and not a diagnostic tool. The results are for informational purposes only and should not be considered a substitute for a professional psychological evaluation. For a proper diagnosis and treatment, please consult a qualified mental health professional.
+                            <strong>Disclaimer:</strong> This is a self-report inventory. The results are for informational purposes only and should not be considered a substitute for a professional psychological evaluation. For a proper diagnosis and treatment, please consult a qualified mental health professional.
                         </p>
-                        <button onclick="resetTest()">Take Again</button>
+                         <div class="navigation">
+                            <button class="back-btn" onclick="goBack()">Back</button>
+                            <button onclick="resetTest()">Take Again</button>
+                        </div>
                     </div>
                 `;
             }
@@ -289,6 +306,25 @@
         function startTest() {
             appState = 'test';
             render();
+        }
+
+        function goBack() {
+             const appDiv = document.querySelector('.app');
+            appDiv.classList.add('fade-out');
+
+            setTimeout(() => {
+                if(appState === 'results'){
+                    appState = 'test';
+                } else if (appState === 'test' && currentQuestion > 0) {
+                    currentQuestion--;
+                } else {
+                    appState = 'start';
+                }
+                render();
+                 const newAppDiv = document.querySelector('.app');
+                newAppDiv.classList.add('fade-out');
+                setTimeout(() => newAppDiv.classList.remove('fade-out'), 10);
+            }, 500);
         }
 
         function resetTest() {
