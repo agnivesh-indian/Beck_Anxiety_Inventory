@@ -13,7 +13,8 @@
             --text-color: #333;
             --container-bg: #ffffff;
             --success-color: #28a745; /* Green */
-            --warning-color: #ffc107; /* Yellow */
+            --info-color: #ffc107;    /* Yellow */
+            --warning-color: #fd7e14; /* Orange */
             --danger-color: #dc3545;  /* Red */
         }
 
@@ -167,9 +168,10 @@
             margin: 1.5rem 0 0.5rem;
             text-align: center;
         }
-        .results-section .interpretation-level.low { color: var(--success-color); }
+        .results-section .interpretation-level.minimal { color: var(--success-color); }
+        .results-section .interpretation-level.mild { color: var(--info-color); }
         .results-section .interpretation-level.moderate { color: var(--warning-color); }
-        .results-section .interpretation-level.high { color: var(--danger-color); }
+        .results-section .interpretation-level.severe { color: var(--danger-color); }
         
         .results-section .interpretation-text {
             font-size: 1.1rem;
@@ -226,12 +228,14 @@
         let appState = 'start'; // 'start', 'test', 'results'
 
         function getInterpretation(score) {
-            if (score >= 0 && score <= 21) {
-                return { level: "Low anxiety", description: "These ups and downs are considered normal.", className: "low" };
-            } else if (score >= 22 && score <= 35) {
-                return { level: "Moderate anxiety", description: "Your physical symptoms may be causing you some distress. Consider seeking a professional opinion.", className: "moderate" };
+            if (score >= 0 && score <= 7) {
+                return { level: "Minimal Anxiety", description: "You are experiencing a minimal level of anxiety. Your symptoms are likely not disruptive to your daily life.", className: "minimal" };
+            } else if (score >= 8 && score <= 15) {
+                return { level: "Mild Anxiety", description: "You are experiencing a mild level of anxiety. While your symptoms may be uncomfortable, they are likely manageable.", className: "mild" };
+            } else if (score >= 16 && score <= 25) {
+                return { level: "Moderate Anxiety", description: "You are experiencing a moderate level of anxiety. Your symptoms may be causing you some distress and interfering with your daily activities.", className: "moderate" };
             } else {
-                return { level: "High anxiety", description: "Your physical symptoms are likely causing you significant distress. It is important to seek a professional opinion.", className: "high" };
+                return { level: "Severe Anxiety", description: "You are experiencing a severe level of anxiety. Your symptoms are likely causing you significant distress and are probably interfering with your daily life.", className: "severe" };
             }
         }
         
